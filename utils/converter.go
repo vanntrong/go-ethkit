@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"encoding/hex"
 	"fmt"
 	"math/big"
 )
@@ -32,6 +33,16 @@ func PadToEvenPublicKey(publicKey string) string {
 		return publicKey
 	}
 	return publicKey[:4] + "0" + publicKey[4:]
+}
+
+func HexToBytes(val string) []byte {
+	bytes, err := hex.DecodeString(val)
+
+	if err != nil {
+		return []byte{}
+	}
+
+	return bytes
 }
 
 func isHexPrefixed(value string) bool {
