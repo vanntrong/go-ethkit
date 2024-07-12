@@ -17,7 +17,7 @@ var TestRandomMnemonicData = map[int]int{
 
 func TestRandomMnemonic(t *testing.T) {
 	for k, v := range TestRandomMnemonicData {
-		bits, err := RandomMnemonic(k)
+		bits, err := GenerateMnemonic(k)
 
 		if err != nil || bits == nil {
 			t.Fatalf(`Error %v`, err)
@@ -74,4 +74,18 @@ func TestPrivateKeyToAccount(t *testing.T) {
 		assert.Equal(t, v.address, account.address, "unexpected address")
 	}
 
+}
+
+func TestCreateNewAccount(t *testing.T) {
+	account, err := CreateNewAccount()
+
+	if err != nil {
+		t.Fatalf(`Error %v`, err)
+	}
+
+	assert.Len(t, account.privateKey, 64)
+	assert.Len(t, account.publicKey, 132)
+	assert.Len(t, account.address, 42)
+	assert.Equal(t, account.address[:2], "0x")
+	assert.Equal(t, account.publicKey[0:4], "0x04")
 }

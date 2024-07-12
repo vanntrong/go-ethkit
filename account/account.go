@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-func RandomMnemonic(bitsLength int) (*string, error) {
+func GenerateMnemonic(bitsLength int) (*string, error) {
 	// Validate bitsLength
 	if !utils.AssertInArrayInt([]int{128, 160, 192, 224, 256}, bitsLength) {
 		return nil, fmt.Errorf("invalid bitsLength, must be one of [128, 160, 192, 224, 256]")
@@ -119,4 +119,16 @@ func PrivateKeyToAccount(privateKey string) TAccount {
 		publicKey:  unCompressedPublicKey,
 		privateKey: privateKey,
 	}
+}
+
+func CreateNewAccount() (*TAccount, error) {
+	mnemonic, err := GenerateMnemonic(128)
+	if err != nil {
+		return nil, err
+	}
+
+	privateKey := MnemonicToPrivateKey(*mnemonic)
+
+	account := PrivateKeyToAccount(privateKey)
+	return &account, nil
 }
