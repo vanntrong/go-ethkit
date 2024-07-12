@@ -27,6 +27,13 @@ func StripHexPrefix(value string) string {
 	return value[2:]
 }
 
+func PadToEvenPublicKey(publicKey string) string {
+	if len(publicKey)%2 == 0 {
+		return publicKey
+	}
+	return publicKey[:4] + "0" + publicKey[4:]
+}
+
 func isHexPrefixed(value string) bool {
 	if len(value) < 2 {
 		return false

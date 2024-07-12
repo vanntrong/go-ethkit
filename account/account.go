@@ -103,6 +103,7 @@ func PrivateKeyToAccount(privateKey string) TAccount {
 	Q := secp256k1.ScalarMultiplication(privateKey)
 
 	unCompressedPublicKey := fmt.Sprintf("0x04%s%s", Q.X.Text(16), Q.Y.Text(16))
+	unCompressedPublicKey = utils.PadToEvenPublicKey(unCompressedPublicKey)
 
 	keccak256 := sha3.NewLegacyKeccak256()
 	publicKeyBytes, _ := hex.DecodeString(utils.PadToEven(utils.StripHexPrefix(unCompressedPublicKey)))
