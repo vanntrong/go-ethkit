@@ -17,7 +17,8 @@ var rlpHandlerMap = map[reflect.Kind]IRLPHandler{
 	reflect.Uint32: {encoder: byteEncoder},
 	reflect.Uint64: {encoder: byteEncoder},
 
-	reflect.Bool: {encoder: boolEncoder},
+	reflect.Bool:   {encoder: boolEncoder},
+	reflect.String: {encoder: stringEncoder},
 }
 
 func isBigInt(value interface{}) bool {

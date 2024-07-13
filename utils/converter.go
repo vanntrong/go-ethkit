@@ -45,6 +45,10 @@ func HexToBytes(val string) []byte {
 	return bytes
 }
 
+func IntToHex(val int) string {
+	return fmt.Sprintf("%x", val)
+}
+
 func isHexPrefixed(value string) bool {
 	if len(value) < 2 {
 		return false
