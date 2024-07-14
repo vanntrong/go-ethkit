@@ -13,6 +13,7 @@ type IRLPHandler struct {
 type encoder func(reflect.Value) ([]byte, error)
 
 var rlpHandlerMap = map[reflect.Kind]*IRLPHandler{
+	reflect.Uint:   {encoder: byteEncoder},
 	reflect.Uint8:  {encoder: byteEncoder},
 	reflect.Uint32: {encoder: byteEncoder},
 	reflect.Uint64: {encoder: byteEncoder},

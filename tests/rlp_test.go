@@ -127,6 +127,67 @@ var rlpTestCases = []rlpTest{
 	{val: [1]byte{0xFF}, output: "81FF"},
 	{val: [3]byte{1, 2, 3}, output: "83010203"},
 	{val: [57]byte{1, 2, 3}, output: "B839010203000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"},
+
+	{val: []uint{}, output: "C0"},
+	{val: []uint{1, 2, 3}, output: "C3010203"},
+	// TODO: handle this case
+	//{
+	//	// [ [], [[]], [ [], [[]] ] ]
+	//	val:    []interface{}{[]interface{}{}, [][]interface{}{{}}, []interface{}{[]interface{}{}, [][]interface{}{{}}}},
+	//	output: "C7C0C1C0C3C0C1C0",
+	//},
+	{
+		val:    []string{"aaa", "bbb", "ccc", "ddd", "eee", "fff", "ggg", "hhh", "iii", "jjj", "kkk", "lll", "mmm", "nnn", "ooo"},
+		output: "F83C836161618362626283636363836464648365656583666666836767678368686883696969836A6A6A836B6B6B836C6C6C836D6D6D836E6E6E836F6F6F",
+	},
+	// TODO: handle this case
+	//{
+	//	val:    []interface{}{uint(1), uint(0xFFFFFF), []interface{}{[]uint{4, 5, 5}}, "abc"},
+	//	output: "CE0183FFFFFFC4C304050583616263",
+	//},
+	{
+		val: [][]string{
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+			{"asdf", "qwer", "zxcv"},
+		},
+		output: "F90200CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376CF84617364668471776572847A786376",
+	},
+
+	// Non-byte arrays are encoded as lists.
+	// Note that it is important to test [4]uint64 specifically,
+	// because that's the underlying type of uint256.Int.
+	{val: [4]uint32{1, 2, 3, 4}, output: "C401020304"},
+	{val: [4]uint64{1, 2, 3, 4}, output: "C401020304"},
 }
 
 func TestRLPEncode(t *testing.T) {
