@@ -1,6 +1,8 @@
 package rlp
 
-import "reflect"
+import (
+	"reflect"
+)
 
 func byteEncoder(value reflect.Value) ([]byte, error) {
 	rVal := value.Uint()

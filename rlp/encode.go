@@ -2,7 +2,6 @@ package rlp
 
 import (
 	"encoding/hex"
-	"fmt"
 	"reflect"
 	"strings"
 )
@@ -16,28 +15,13 @@ var (
 
 func Encode(input interface{}) (*string, error) {
 	rVal := reflect.ValueOf(input)
-	rType := reflect.TypeOf(input)
 
-	var handler IRLPHandler
-	fmt.Println(rType)
-	switch rType.Kind() {
-	case reflect.Pointer:
-		if isBigInt(input) {
-			handler = bigIntHandler
-		}
-		if isUint256(input) {
-			//	TODO add handler for uint256
-		}
-	case reflect.Struct:
-		if isBigInt(input) {
-			handler = bigIntHandler
-		}
-		if isUint256(input) {
-			//	TODO add handler for uint256
-		}
-	default:
-		handler = rlpHandlerMap[rType.Kind()]
+	handler := getRLPHandler(input)
+
+	if handler == nil {
+		return nil, ErrUnSupportInputType
 	}
+
 	val, err := handler.encoder(rVal)
 
 	if err != nil {
